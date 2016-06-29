@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Make a simple JavaScript slideshow step by step</title>
+<link rel="stylesheet" href="../prism/prism.css">
+<script src="../prism/prism.js"></script>
+</head>
+<body>
+<h3 class="title">Step 1: Add HTML contains all slideshow photos and buttons</h3>
+<pre class="language-html">
+<code class="language-html"><xmp>
+<div id="photo-slideshow">
+    <div class="wrapper">
+        <!-- Put all slideshow photos here -->
+        <figure class="active">
+            <img alt="Create JavaScript slideshow for website - Photo 1" src="http://simplejs.net/images-2016/06-27/Create-JavaScript-slideshow-for-website-with-three-steps--1.jpg">
+        </figure>
+        <figure>
+            <img alt="Create JavaScript slideshow for website - Photo 2" src="http://simplejs.net/images-2016/06-27/Create-JavaScript-slideshow-for-website-with-three-steps--2.jpg">
+        </figure>
+        <figure>
+            <img alt="Create JavaScript slideshow for website - Photo 3" src="http://simplejs.net/images-2016/06-27/Create-JavaScript-slideshow-for-website-with-three-steps--3.jpg">
+        </figure>
+        <figure>
+            <img alt="Create JavaScript slideshow for website - Photo 4" src="http://simplejs.net/images-2016/06-27/Create-JavaScript-slideshow-for-website-with-three-steps--4.jpg">
+        </figure>
+        <figure>
+            <img alt="Create JavaScript slideshow for website - Photo 5" src="http://simplejs.net/images-2016/06-27/Create-JavaScript-slideshow-for-website-with-three-steps--5.jpg">
+        </figure>
+    </div>
+    <!-- Previous and Next button -->
+    <button type="button" class="prev-button"> <i></i> </button>
+    <button type="button" class="next-button"> <i></i> </button>
+</div>
+</xmp></code>
+</pre>
+
+<p>
+    Each figure tag is a slideshow item which contains photo and caption.
+    <br>
+    The buttons are in same level with the tag contains all slideshow items.
+</p>
+
+<h3 class="title">Step 2: Add CSS</h3>
+
+<h4 class="title">Put all slideshow items at one place using CSS position absolute</h4>
+<pre class="language-css">
+<code class="language-css">
+#photo-slideshow,
+#photo-slideshow * {
+    position: relative;
+    margin: 0;
+    padding: 0;
+}
+#photo-slideshow,
+#photo-slideshow wrapper,
+#photo-slideshow figure,
+#photo-slideshow img {
+    width: 100%;
+}
+#photo-slideshow figure {
+    position: absolute;
+    top: 0;
+    left: 0;
+    line-height: 0;
+    opacity: 0;
+    transition: opacity 0.5s;
+    -webkit-transition: opacity 0.5s;
+}
+#photo-slideshow figure.active {
+    position: static;
+    opacity: 1;
+}
+</code>
+</pre>
+
+<h4 class="title">Put previous and next button over all slideshow items and make them vertical align center</h4>
+<pre class="language-css">
+<code class="language-css">
+#photo-slideshow button {
+    position: absolute;
+    height: 100%;
+    top: 0;
+    border: none;
+    background: none;
+}
+#photo-slideshow .prev-button {
+    left: 0;
+    padding: 0 15% 0 3%;
+}
+#photo-slideshow .next-button {
+    right: 0;
+    padding: 0 3% 0 15%;
+}
+#photo-slideshow button i {
+    display: block;
+    width: 40px;
+    height: 86px;
+}
+#photo-slideshow .prev-button i {
+    background: url("http://simplejs.net/images-2016/06-27/thin-black-left-arrow.png") no-repeat;
+}
+#photo-slideshow .next-button i {
+    background: url("http://simplejs.net/images-2016/06-27/thin-black-right-arrow.png") no-repeat;
+}
+@media screen and (max-width: 640px) {
+    #photo-slideshow button i {
+        transform: scale(0.5, 0.5);
+        -webkit-transform: scale(0.5, 0.5);
+    }
+}
+</code>
+</pre>
+
+<h3 class="title">Step 3: Add JavaScript event listener for click event on buttons</h3>
+<pre class="language-javascript">
+<code class="language-javascript">
+var container = document.getElementById("photo-slideshow");
+var wrapper = container.getElementsByClassName("wrapper")[0];
+
+var prev_button = container.getElementsByClassName("prev-button")[0];
+var next_button = container.getElementsByClassName("next-button")[0];
+
+prev_button.addEventListener("click", prev);
+next_button.addEventListener("click", next);
+</code>
+</pre>
+
+<h4 class="title">Declare function prev() and next()</h4>
+<pre class="language-javascript">
+<code class="language-javascript">
+var number = wrapper.children.length;
+var current_index = 0;
+
+function prev() {
+    if (current_index == 0) {
+        current_index = number - 1;
+    } else {
+        current_index--;
+    }
+    
+    setActiveClass(current_index);
+}
+
+function next() {
+    if (current_index == number - 1) {
+        current_index = 0;
+    } else {
+        current_index++;
+    }
+    
+    setActiveClass(current_index);
+}
+</code>
+</pre>
+
+<h4 class="title">Declare function setActiveClass()</h4>
+<pre class="language-javascript">
+<code class="language-javascript">
+function setActiveClass() {
+    for (var i = 0; i < number; i++) {
+        if (i == current_index) {
+            wrapper.children[i].classList.add("active");
+        } else {
+            wrapper.children[i].classList.remove("active");
+        }
+    }
+}
+</code>
+</pre>
+
+<h3 class="title">Result</h3>
+
+<div id="photo-slideshow">
+    <div class="wrapper">
+        <!-- Put all slideshow photos here -->
+        <figure class="active">
+            <img alt="Make a simple JavaScript slideshow step by step - photo 1" src="http://simplejs.net/images-2016/06-27/Create-JavaScript-slideshow-for-website-with-three-steps--1.jpg">
+        </figure>
+        <figure>
+            <img alt="Make a simple JavaScript slideshow step by step - photo 2" src="http://simplejs.net/images-2016/06-27/Create-JavaScript-slideshow-for-website-with-three-steps--2.jpg">
+        </figure>
+        <figure>
+            <img alt="Make a simple JavaScript slideshow step by step - photo 3" src="http://simplejs.net/images-2016/06-27/Create-JavaScript-slideshow-for-website-with-three-steps--3.jpg">
+        </figure>
+        <figure>
+            <img alt="Make a simple JavaScript slideshow step by step - photo 4" src="http://simplejs.net/images-2016/06-27/Create-JavaScript-slideshow-for-website-with-three-steps--4.jpg">
+        </figure>
+        <figure>
+            <img alt="Make a simple JavaScript slideshow step by step - photo 5" src="http://simplejs.net/images-2016/06-27/Create-JavaScript-slideshow-for-website-with-three-steps--5.jpg">
+        </figure>
+    </div>
+    <!-- Two control buttons -->
+    <button type="button" class="prev-button"> <i></i> </button>
+    <button type="button" class="next-button"> <i></i> </button>
+</div>
+
+<style>
+#photo-slideshow,
+#photo-slideshow * {
+    position: relative;
+    margin: 0;
+    padding: 0;
+}
+#photo-slideshow,
+#photo-slideshow wrapper,
+#photo-slideshow figure,
+#photo-slideshow img {
+    width: 100%;
+}
+#photo-slideshow figure {
+    position: absolute;
+    top: 0;
+    left: 0;
+    line-height: 0;
+    opacity: 0;
+    transition: opacity 0.5s;
+    -webkit-transition: opacity 0.5s;
+}
+#photo-slideshow figure.active {
+    position: static;
+    opacity: 1;
+}
+#photo-slideshow button {
+    position: absolute;
+    height: 100%;
+    top: 0;
+    border: none;
+    background: none;
+}
+#photo-slideshow .prev-button {
+    left: 0;
+    padding: 0 15% 0 3%;
+}
+#photo-slideshow .next-button {
+    right: 0;
+    padding: 0 3% 0 15%;
+}
+#photo-slideshow button i {
+    display: block;
+    width: 40px;
+    height: 86px;
+}
+#photo-slideshow .prev-button i {
+    background: url("http://simplejs.net/images-2016/06-27/thin-black-left-arrow.png") no-repeat;
+}
+#photo-slideshow .next-button i {
+    background: url("http://simplejs.net/images-2016/06-27/thin-black-right-arrow.png") no-repeat;
+}
+@media screen and (max-width: 640px) {
+    #photo-slideshow button i {
+        transform: scale(0.5, 0.5);
+        -webkit-transform: scale(0.5, 0.5);
+    }
+}
+</style>
+
+<script>
+var container = document.getElementById("photo-slideshow");
+var wrapper = container.getElementsByClassName("wrapper")[0];
+
+var prev_button = container.getElementsByClassName("prev-button")[0];
+var next_button = container.getElementsByClassName("next-button")[0];
+
+prev_button.addEventListener("click", prev);
+next_button.addEventListener("click", next);
+
+var number = wrapper.children.length;
+var current_index = 0;
+
+function prev() {
+    if (current_index == 0) {
+        current_index = number - 1;
+    } else {
+        current_index--;
+    }
+    
+    setActiveClass(current_index);
+}
+
+function next() {
+    if (current_index == number - 1) {
+        current_index = 0;
+    } else {
+        current_index++;
+    }
+    
+    setActiveClass(current_index);
+}
+
+function setActiveClass() {
+    for (var i = 0; i < number; i++) {
+        if (i == current_index) {
+            wrapper.children[i].classList.add("active");
+        } else {
+            wrapper.children[i].classList.remove("active");
+        }
+    }
+}
+</script>
+</body>
+</html>

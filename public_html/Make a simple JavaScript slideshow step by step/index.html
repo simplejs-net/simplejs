@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Make a simple JavaScript slideshow step by step</title>
+<link rel="stylesheet" href="../prism/prism.css">
+<script src="../prism/prism.js"></script>
+</head>
+<body>
+<h3 class="title">Step 1: Create a <span itemprop="programmingLanguage">HTML</span> block contains all photo items and control buttons</h3>
+<pre class="language-html">
+<code class="language-html"><xmp>
+<div id="slideshow-container">
+    <div class="items-wrap">
+        <!-- Put all photo items here -->
+        <figure>
+            <img alt="Make a simple JavaScript slideshow step by step - photo 1" src="http://simplejs.net/images-2016/06-21/Make-a-simple-JavaScript-slideshow-step-by-step.jpg">
+        </figure><!-- no space between 2 figure --><figure>
+            <img alt="Make a simple JavaScript slideshow step by step - photo 2" src="http://simplejs.net/images-2016/06-21/Make-a-simple-JavaScript-slideshow-step-by-step-2.jpg">
+        </figure><figure>
+            <img alt="Make a simple JavaScript slideshow step by step - photo 3" src="http://simplejs.net/images-2016/06-21/Make-a-simple-JavaScript-slideshow-step-by-step-3.jpg">
+        </figure><figure>
+            <img alt="Make a simple JavaScript slideshow step by step - photo 4" src="http://simplejs.net/images-2016/06-21/Make-a-simple-JavaScript-slideshow-step-by-step-4.jpg">
+        </figure><figure>
+            <img alt="Make a simple JavaScript slideshow step by step - photo 5" src="http://simplejs.net/images-2016/06-21/Make-a-simple-JavaScript-slideshow-step-by-step-5.jpg">
+        </figure>
+    </div>
+    <!-- Two control buttons -->
+    <button type="button" class="bt-prev">&LT; Prev</button>
+    <button type="button" class="bt-next">Next &GT;</button>
+</div>
+</xmp></code>
+</pre>
+
+<p>
+    Each figure tag is a photo item. It contains one img tag.
+    <br>
+    The buttons are in same level with the tag which contains all photo items.
+</p>
+
+<h3 class="title">Step 2: Edit view  by <span itemprop="programmingLanguage">CSS</span></h3>
+
+<strong class="sub-title">Make the photo items stay in one line</strong>
+<pre class="language-css">
+<code class="language-css">
+#slideshow-container,
+#slideshow-container * {
+    position: relative;
+    margin: 0;
+    padding: 0;
+}
+#slideshow-container {
+    width: 100%;
+    max-width: 640px;
+    white-space: nowrap;
+    overflow-x: hidden;
+}
+#slideshow-container figure {
+    display: inline-block;
+    vertical-align: middle;
+}
+</code>
+</pre>
+
+<br><strong class="sub-title">Make the buttons overlap the photo items</strong>
+<pre class="language-css">
+<code class="language-css">
+#slideshow-container .bt-prev,
+#slideshow-container .bt-next {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    margin-top: auto;
+    margin-bottom: auto;
+    height: 34px;
+}
+#slideshow-container .bt-prev {
+    left: 0;
+}
+#slideshow-container .bt-next {
+    right: 0;
+}
+</code>
+</pre>
+
+<br><strong class="sub-title">Make the photos full width</strong>
+<pre class="language-css">
+<code class="language-css">
+#slideshow-container items-wrap,
+#slideshow-container figure,
+#slideshow-container img {
+    width: 100%;
+}
+</code>
+</pre>
+
+<h3 class="title">Step 3: Adding <span itemprop="programmingLanguage">JavaScript</span> event listener for click event on buttons</h3>
+<pre class="language-javascript">
+<code class="language-javascript">
+var container = document.getElementById("slideshow-container");
+var items_wrap = container.getElementsByClassName("items-wrap")[0];
+var bt_prev = container.getElementsByClassName("bt-prev")[0];
+var bt_next = container.getElementsByClassName("bt-next")[0];
+
+bt_prev.onclick = function() {
+    prev();
+};
+bt_next.onclick = function() {
+    next();
+};
+</code>
+</pre>
+
+<br><strong class="sub-title">Declaring function prev() and next()</strong>
+<pre class="language-javascript">
+<code class="language-javascript">
+var number = items_wrap.children.length;
+var current_index = 0;
+
+function prev() {
+    if (current_index == 0) {
+        current_index = number - 1;
+    } else {
+        current_index--;
+    }
+    
+    setMargin(current_index);
+}
+
+function next() {
+    if (current_index == number - 1) {
+        current_index = 0;
+    } else {
+        current_index++;
+    }
+    
+    setMargin(current_index);
+}
+</code>
+</pre>
+
+<br><strong class="sub-title">Declaring function setMargin()</strong>
+<pre class="language-javascript">
+<code class="language-javascript">
+// Set time slide
+items_wrap.style.transition = "margin 0.5s";
+
+function setMargin(x) {
+    var item_width = window.getComputedStyle(items_wrap.children[0], null)
+            .getPropertyValue("width");
+    items_wrap.style.marginLeft = "-" + x * parseInt(item_width) + "px";
+    items_wrap.style.marginRight = x * parseInt(item_width) + "px";
+}
+</code>
+</pre>
+
+<h3 class="title">Step 4: Make the slideshow auto run</h3>
+<pre class="language-javascript">
+<code class="language-javascript">
+setInterval(function(){
+    next();
+}, 3000); // 3 seconds
+</code>
+</pre>
+
+
+<h3 class="title">Result</h3>
+
+<style>
+#slideshow-container,
+#slideshow-container * {
+    position: relative;
+    margin: 0;
+    padding: 0;
+}
+#slideshow-container {
+    width: 100%;
+    max-width: 640px;
+    white-space: nowrap;
+    overflow-x: hidden;
+}
+#slideshow-container figure {
+    display: inline-block;
+    vertical-align: middle;
+}
+#slideshow-container .bt-prev,
+#slideshow-container .bt-next {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    margin-top: auto;
+    margin-bottom: auto;
+    height: 34px;
+}
+#slideshow-container .bt-prev {
+    left: 0;
+}
+#slideshow-container .bt-next {
+    right: 0;
+}
+#slideshow-container items-wrap,
+#slideshow-container figure,
+#slideshow-container img {
+    width: 100%;
+}
+</style>
+<div id="slideshow-container">
+    <div class="items-wrap">
+        <!-- Put all photo items here -->
+        <figure>
+            <img alt="Make a simple JavaScript slideshow step by step - photo 1" src="http://simplejs.net/images-2016/06-21/Make-a-simple-JavaScript-slideshow-step-by-step.jpg">
+        </figure><!-- no space between 2 figure --><figure>
+            <img alt="Make a simple JavaScript slideshow step by step - photo 2" src="http://simplejs.net/images-2016/06-21/Make-a-simple-JavaScript-slideshow-step-by-step-2.jpg">
+        </figure><figure>
+            <img alt="Make a simple JavaScript slideshow step by step - photo 3" src="http://simplejs.net/images-2016/06-21/Make-a-simple-JavaScript-slideshow-step-by-step-3.jpg">
+        </figure><figure>
+            <img alt="Make a simple JavaScript slideshow step by step - photo 4" src="http://simplejs.net/images-2016/06-21/Make-a-simple-JavaScript-slideshow-step-by-step-4.jpg">
+        </figure><figure>
+            <img alt="Make a simple JavaScript slideshow step by step - photo 5" src="http://simplejs.net/images-2016/06-21/Make-a-simple-JavaScript-slideshow-step-by-step-5.jpg">
+        </figure>
+    </div>
+    <!-- Two control buttons -->
+    <button type="button" class="bt-prev">&LT; Prev</button>
+    <button type="button" class="bt-next">Next &GT;</button>
+</div>
+<script>
+var container = document.getElementById("slideshow-container");
+var items_wrap = container.getElementsByClassName("items-wrap")[0];
+var bt_prev = container.getElementsByClassName("bt-prev")[0];
+var bt_next = container.getElementsByClassName("bt-next")[0];
+
+bt_prev.onclick = function() {
+    prev();
+};
+bt_next.onclick = function() {
+    next();
+};
+
+var current_index = 0;
+var number = items_wrap.children.length;
+
+function prev() {
+    if (current_index == 0) {
+        current_index = number - 1;
+    } else {
+        current_index--;
+    }
+    
+    setMargin(current_index);
+}
+
+function next() {
+    if (current_index == number - 1) {
+        current_index = 0;
+    } else {
+        current_index++;
+    }
+    
+    setMargin(current_index);
+}
+
+// Set time slide
+items_wrap.style.transition = "margin 0.5s";
+
+function setMargin(x) {
+    var item_width = window.getComputedStyle(items_wrap.children[0], null)
+            .getPropertyValue("width");
+    items_wrap.style.marginLeft = "-" + x * parseInt(item_width) + "px";
+    items_wrap.style.marginRight = x * parseInt(item_width) + "px";
+}
+
+setInterval(function(){
+    next();
+}, 3000);
+</script>
+</body>
+</html>
