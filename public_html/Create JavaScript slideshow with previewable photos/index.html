@@ -67,30 +67,24 @@
 }
 #photo-slideshow .prev-button {
     left: 0;
-    padding: 0 10% 0 1%;
+    padding: 0 10% 0 2%;
 }
 #photo-slideshow .next-button {
     right: 0;
-    padding: 0 1% 0 10%;
+    padding: 0 2% 0 10%;
 }
 #photo-slideshow button i {
     display: block;
     width: 40px;
-    height: 86px;
-    transform: scale(0.8, 0.8);
-    -webkit-transform: scale(0.8, 0.8);
+    height: 40px;
+    transform: rotateZ(45deg);
+    border: 1px inset #fff;
 }
 #photo-slideshow .prev-button i {
-    background: url("http://simplejs.net/images-2016/06-27/thin-black-left-arrow.png") no-repeat;
+    border-width: 0 0 1px 1px;
 }
 #photo-slideshow .next-button i {
-    background: url("http://simplejs.net/images-2016/06-27/thin-black-right-arrow.png") no-repeat;
-}
-@media screen and (max-width: 640px) {
-    #photo-slideshow button i {
-        transform: scale(0.5, 0.5);
-        -webkit-transform: scale(0.5, 0.5);
-    }
+    border-width: 1px 1px 0 0;
 }
 </style>
 <style>
@@ -116,12 +110,12 @@
     outline: 3px solid #2a0;
 }
 #photo-slideshow .preview button i {
-    transform: scale(0.4, 0.4);
-    -webkit-transform: scale(0.4, 0.4);
+    width: 20px;
+    height: 20px;
 }
 #photo-slideshow .preview .prev-button,
 #photo-slideshow .preview .next-button {
-    padding: 0;
+    padding: 0 1.5%;
 }
 </style>
 <script>
